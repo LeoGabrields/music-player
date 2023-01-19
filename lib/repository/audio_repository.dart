@@ -5,14 +5,16 @@ class AudioRepository {
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
   Future<List<SongModel>> querySongs() async {
-    var listSong = await _audioQuery.querySongs(
-      sortType: null,
-      orderType: OrderType.ASC_OR_SMALLER,
-      uriType: UriType.EXTERNAL,
-      ignoreCase: true,
-    );
-
-    debugPrint(listSong.toString());
+    List<SongModel> listSong = [];
+    try {
+      listSong = await _audioQuery.querySongs(
+        orderType: OrderType.ASC_OR_SMALLER,
+        uriType: UriType.EXTERNAL,
+        ignoreCase: true,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     return listSong;
   }
 
