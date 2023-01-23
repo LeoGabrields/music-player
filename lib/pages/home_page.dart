@@ -3,20 +3,15 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:player_music/constants/app_color.dart';
 import 'package:player_music/widgets/neumorphic_button_widget.dart';
 import 'package:player_music/pages/player_music_page.dart';
-import '../repository/audio_repository.dart';
+import 'package:provider/provider.dart';
+import '../controller/audio_controller.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  AudioRepository audioRepository = AudioRepository(audioQuery: OnAudioQuery());
-
-  @override
   Widget build(BuildContext context) {
+    var audioRepository = Provider.of<AudioController>(context);
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
       body: SafeArea(
@@ -39,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                      color: audioRepository.currentIndex == index
+                      color: audioRepository.audioPlayer.currentIndex == index
                           ? Colors.black54
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(15)),
@@ -54,9 +49,8 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) =>
                               PlayerMusic(audioRepository: audioRepository),
                         ));
-                        setState(() {
-                          audioRepository.initPlayList(index);
-                        });
+
+                        audioRepository.initPlayList(index);
                       },
                     ),
                     title: Text(

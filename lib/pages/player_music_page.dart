@@ -3,12 +3,13 @@ import 'package:player_music/constants/app_color.dart';
 import 'package:player_music/models/position_data_stream.dart';
 import 'package:player_music/widgets/neumorphic_button_widget.dart';
 import 'package:player_music/pages/components/icon_play_or_pause.dart';
-import 'package:player_music/repository/audio_repository.dart';
+import 'package:player_music/controller/audio_controller.dart';
 import 'package:player_music/utils/utils.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PlayerMusic extends StatefulWidget {
-  final AudioRepository audioRepository;
+  final AudioController audioRepository;
   const PlayerMusic({super.key, required this.audioRepository});
 
   @override
@@ -25,8 +26,7 @@ class _PlayerMusicState extends State<PlayerMusic> {
 
   @override
   Widget build(BuildContext context) {
-    var audio = widget.audioRepository.listSong;
-    var audioPlayer = widget.audioRepository.audioPlayer;
+    var audioController = Provider.of<AudioController>(context);
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -81,14 +81,14 @@ class _PlayerMusicState extends State<PlayerMusic> {
               ),
               SizedBox(height: size.height * 0.03),
               StreamBuilder<int?>(
-                stream: audioPlayer.currentIndexStream,
+                stream: audioController.audioPlayer.currentIndexStream,
                 builder: (context, snapshot) {
                   var index =
                       snapshot.data ?? widget.audioRepository.currentIndex ?? 0;
                   return Column(
                     children: [
                       Text(
-                        audio[index].displayNameWOExt,
+                        audioController.listSong[index].displayNameWOExt,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontSize: 21,
@@ -96,7 +96,7 @@ class _PlayerMusicState extends State<PlayerMusic> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        audio[index].artist!,
+                        audioController.listSong[index].artist!,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,
@@ -191,13 +191,17 @@ class _PlayerMusicState extends State<PlayerMusic> {
                         Icons.skip_previous_rounded,
                         color: Colors.white,
                       ),
-                      function: audioPlayer.seekToPrevious,
+                      function: () {
+                        setState(() {
+                          audioController.previousAudio();
+                        });
+                      },
                     ),
                     IconPlayOrPause(
-                      pause: audioPlayer.pause,
-                      seek: audioPlayer.seek,
-                      play: audioPlayer.play,
-                      stream: audioPlayer.playerStateStream,
+                      pause: audioController.audioPlayer.pause,
+                      seek: audioController.audioPlayer.seek,
+                      play: audioController.audioPlayer.play,
+                      stream: audioController.audioPlayer.playerStateStream,
                     ),
                     NeumorphicButtonCustom(
                         size: 15,
@@ -205,7 +209,9 @@ class _PlayerMusicState extends State<PlayerMusic> {
                           Icons.skip_next_rounded,
                           color: Colors.white,
                         ),
-                        function: audioPlayer.seekToNext),
+                        function: () {
+                          audioController.nextAudio();
+                        }),
                     IconButton(
                       onPressed: () {},
                       icon: const Icon(

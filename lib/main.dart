@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:player_music/constants/request_permission.dart';
+import 'package:player_music/controller/audio_controller.dart';
 import 'package:player_music/pages/home_page.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,10 +15,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => AudioController(),
+      child: MaterialApp(
+        theme: ThemeData(useMaterial3: true),
+        debugShowCheckedModeBanner: false,
+        home: const HomePage(),
+      ),
     );
   }
 }
