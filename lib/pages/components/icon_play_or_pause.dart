@@ -33,30 +33,33 @@ class IconPlayOrPause extends StatelessWidget {
           );
         } else if (playing != true) {
           return NeumorphicButtonCustom(
+            heigth: 90,
+            width: 90,
             icon: const Icon(
               Icons.play_arrow,
               color: Colors.white,
             ),
-            size: 22,
             function: play,
           );
         } else if (processingState != ProcessingState.completed) {
           return NeumorphicButtonCustom(
+            heigth: 90,
+            width: 90,
             color: const Color(0xFFA02017),
             icon: const Icon(
               Icons.pause,
               color: Colors.white,
             ),
-            size: 22,
             function: pause,
           );
         } else {
           return NeumorphicButtonCustom(
+            heigth: 60,
+            width: 60,
             icon: const Icon(
               Icons.replay,
               color: Colors.white,
             ),
-            size: 22,
             function: () => seek(Duration.zero),
           );
         }

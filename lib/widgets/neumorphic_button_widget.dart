@@ -1,50 +1,65 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:player_music/constants/app_color.dart';
 
 class NeumorphicButtonCustom extends StatelessWidget {
   final Icon icon;
   final Function function;
   final double size;
   final Color color;
+  final double width;
+  final double heigth;
+
   const NeumorphicButtonCustom({
     Key? key,
     required this.icon,
     required this.function,
     this.size = 7.0,
-    this.color = Colors.black54,
+    this.color = const Color.fromARGB(255, 80, 80, 83),
+    required this.width,
+    required this.heigth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Neumorphic(
+    return Container(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      width: width,
+      height: heigth,
       padding: const EdgeInsets.all(3),
-      style: const NeumorphicStyle(
-          intensity: 0,
-          color: AppColor.backgroundColor,
-          depth: -2,
-          shadowDarkColor: Colors.white38,
-          shadowLightColor: Color.fromARGB(179, 255, 255, 255),
-          oppositeShadowLightSource: true,
-          boxShape: NeumorphicBoxShape.circle()),
-      child: Neumorphic(
-        style: const NeumorphicStyle(
-            depth: 20,
-            color: Color.fromARGB(29, 237, 237, 238),
-            shadowDarkColor: Colors.black,
-            shadowLightColor: Colors.white54,
-            oppositeShadowLightSource: false,
-            boxShape: NeumorphicBoxShape.circle()),
-        child: NeumorphicRadio(
-            onChanged: (dynamic a) => function(),
-            padding: EdgeInsets.all(size),
-            style: NeumorphicRadioStyle(
-              boxShape: const NeumorphicBoxShape.circle(),
-              intensity: 0,
-              shape: NeumorphicShape.convex,
-              selectedColor: color,
-              unselectedColor: color,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Color.fromARGB(255, 52, 52, 58),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(38, 255, 255, 255),
+            blurRadius: 30,
+            offset: Offset(-8, -8),
+          ),
+          BoxShadow(
+            color: Color.fromARGB(164, 0, 0, 0),
+            blurRadius: 23,
+            offset: Offset(10, 9),
+          )
+        ],
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(60),
+        onTap: () => function(),
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                color,
+                Color(0xff202026),
+              ],
             ),
-            child: icon),
+          ),
+          child: icon,
+        ),
       ),
     );
   }

@@ -40,6 +40,8 @@ class HomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15)),
                   child: ListTile(
                     leading: NeumorphicButtonCustom(
+                      heigth: 60,
+                      width: 60,
                       icon: const Icon(
                         Icons.play_arrow_rounded,
                         color: Colors.white54,
