@@ -117,27 +117,30 @@ class _PlayerMusicState extends State<PlayerMusic> {
               builder: (context, snapshot) {
                 var index =
                     snapshot.data ?? widget.audioRepository.currentIndex ?? 0;
-                return Column(
-                  children: [
-                    Text(
-                      audioController.listSong[index].displayNameWOExt,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 21,
-                          color: AppColor.primaryTextColor,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      audioController.listSong[index].artist == '<unknown>'
-                          ? 'Artista Desconhecido'
-                          : audioController.listSong[index].artist ?? '',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColor.secondaryTextColor,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        audioController.listSong[index].displayNameWOExt,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 21,
+                            color: AppColor.primaryTextColor,
+                            fontWeight: FontWeight.w500),
                       ),
-                    ),
-                  ],
+                      Text(
+                        audioController.listSong[index].artist == '<unknown>'
+                            ? 'Artista Desconhecido'
+                            : audioController.listSong[index].artist ?? '',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: AppColor.secondaryTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
@@ -152,7 +155,8 @@ class _PlayerMusicState extends State<PlayerMusic> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -175,45 +179,27 @@ class _PlayerMusicState extends State<PlayerMusic> {
                             ],
                           ),
                         ),
-                        NeumorphicTheme(
-                          theme: const NeumorphicThemeData(
-                              baseColor: Colors.black),
-                          child: NeumorphicSlider(
-                            thumb: Neumorphic(
-                              style: const NeumorphicStyle(
-                                depth: 10,
-                                intensity: 0,
-                                shape: NeumorphicShape.convex,
-                                color: Colors.black45,
-                              ),
-                              child: CircleAvatar(
-                                maxRadius: 10,
-                                backgroundColor: Colors.grey.shade900,
-                                child: const CircleAvatar(
-                                  maxRadius: 4,
-                                  backgroundColor: Color(0xFFA02017),
-                                ),
-                              ),
+                        SliderTheme(
+                          data: SliderThemeData(
+                            overlayShape: SliderComponentShape.noOverlay,
+                            thumbShape: const RoundSliderThumbShape(
+                              disabledThumbRadius: 2,
+                              elevation: 4,
+                              pressedElevation: 0,
+                              enabledThumbRadius: 6,
                             ),
-                            sliderHeight: 5,
-                            height: 5,
-                            max: positionData.duration.inSeconds.toDouble(),
-                            min: 0,
+                          ),
+                          child: Slider(
                             value: positionData.position.inSeconds.toDouble(),
+                            min: 0,
+                            max: positionData.duration.inSeconds.toDouble(),
+                            activeColor: const Color(0xFFA02017),
+                            inactiveColor: Colors.black,
                             onChanged: (value) async {
                               final position = Duration(seconds: value.toInt());
                               await widget.audioRepository.audioPlayer
                                   .seek(position);
                             },
-                            style: const SliderStyle(
-                              border: NeumorphicBorder(
-                                width: 0.6,
-                                color: Colors.black38,
-                              ),
-                              depth: -20,
-                              accent: AppColor.backgroundColor,
-                              variant: Color(0xFFA02017),
-                            ),
                           ),
                         ),
                       ],
@@ -238,9 +224,7 @@ class _PlayerMusicState extends State<PlayerMusic> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    onPressed: () {
-                      setState(() {});
-                    },
+                    onPressed: () {},
                     icon: const Icon(Icons.repeat_outlined),
                     color: AppColor.secondaryTextColor,
                   ),

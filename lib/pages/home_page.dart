@@ -48,14 +48,10 @@ class HomePage extends StatelessWidget {
 
                       audioRepository.initPlayList(index);
                     },
-                    leading: NeumorphicButtonCustom(
-                      heigth: 60,
-                      width: 60,
-                      icon: const Icon(
-                        Icons.play_arrow_rounded,
-                        color: Colors.white54,
-                      ),
-                      function: () {},
+                    leading: const CircleAvatar(
+                      radius: 27,
+                      backgroundColor: Color(0xFFA02017),
+                      child: Icon(Icons.music_note),
                     ),
                     title: Text(
                       audio.displayNameWOExt,
