@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -13,21 +11,18 @@ class AudioController extends ChangeNotifier {
   Future<List<SongModel>> querySongs() async {
     try {
       listSong = await audioQuery.querySongs(
-        orderType: OrderType.ASC_OR_SMALLER,
-        uriType: UriType.EXTERNAL,
-        ignoreCase: true,
-      );
+          orderType: OrderType.ASC_OR_SMALLER,
+          uriType: UriType.EXTERNAL,
+          ignoreCase: true,
+          sortType: SongSortType.DISPLAY_NAME);
     } catch (e) {
       debugPrint(e.toString());
     }
     return listSong;
   }
 
-  currentIndexAtt(int index) {
-    audioPlayer.currentIndexStream.listen((event) {
-      currentIndex = event;
-      notifyListeners();
-    });
+  void currentIndexAtt(int index) {
+    currentIndex = index;
     notifyListeners();
   }
 
@@ -38,18 +33,15 @@ class AudioController extends ChangeNotifier {
         sources.add(AudioSource.uri(Uri.parse(song.uri!)));
       }
     }
-
     return ConcatenatingAudioSource(children: sources);
   }
 
-  setAudio(ConcatenatingAudioSource audios) async {
+  Future<void> setAudio(ConcatenatingAudioSource audios) async {
     await audioPlayer.setAudioSource(audios, initialIndex: currentIndex);
-    notifyListeners();
   }
 
-  initPlayList(int index) async {
-    log('o index é = $index e o currentIndex é $currentIndex');
-    if (currentIndex != index) {
+  void initPlayList(int index) async {
+    if (audioPlayer.currentIndex != index) {
       currentIndexAtt(index);
       await setAudio(createPlaylist());
       await audioPlayer.play();
@@ -57,12 +49,12 @@ class AudioController extends ChangeNotifier {
     notifyListeners();
   }
 
-  nextAudio() async {
+  void nextAudio() async {
     await audioPlayer.seekToNext();
     notifyListeners();
   }
 
-  previousAudio() {
+  void previousAudio() {
     audioPlayer.seekToPrevious();
     notifyListeners();
   }
