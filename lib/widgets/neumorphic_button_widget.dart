@@ -4,7 +4,6 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 class NeumorphicButtonCustom extends StatelessWidget {
   final Icon icon;
   final Function function;
-  final double size;
   final Color color;
   final double width;
   final double heigth;
@@ -13,7 +12,6 @@ class NeumorphicButtonCustom extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.function,
-    this.size = 7.0,
     this.color = const Color.fromARGB(255, 80, 80, 83),
     required this.width,
     required this.heigth,
@@ -54,7 +52,7 @@ class NeumorphicButtonCustom extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [
                 color,
-                Color(0xff202026),
+                const Color(0xff202026),
               ],
             ),
           ),

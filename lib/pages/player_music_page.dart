@@ -32,19 +32,19 @@ class _PlayerMusicState extends State<PlayerMusic> {
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
       body: Container(
-        margin: EdgeInsets.only(top: size.height * 0.04),
+        margin: EdgeInsets.only(top: size.height * 0.055),
         height: size.height,
         width: size.width,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   NeumorphicButtonCustom(
-                      heigth: 60,
-                      width: 60,
+                      heigth: 55,
+                      width: 55,
                       icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.grey,
@@ -56,8 +56,8 @@ class _PlayerMusicState extends State<PlayerMusic> {
                         color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
                   NeumorphicButtonCustom(
-                    heigth: 60,
-                    width: 60,
+                    heigth: 55,
+                    width: 55,
                     icon: const Icon(
                       Icons.list,
                       color: Colors.grey,
@@ -70,8 +70,8 @@ class _PlayerMusicState extends State<PlayerMusic> {
             SizedBox(height: size.height * 0.025),
             Container(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              width: 280,
-              height: 280,
+              width: size.width * 0.8,
+              height: size.height * 0.35,
               padding: const EdgeInsets.all(3),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
@@ -128,7 +128,9 @@ class _PlayerMusicState extends State<PlayerMusic> {
                           fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      audioController.listSong[index].artist!,
+                      audioController.listSong[index].artist == '<unknown>'
+                          ? 'Artista Desconhecido'
+                          : audioController.listSong[index].artist ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 14,
@@ -150,7 +152,7 @@ class _PlayerMusicState extends State<PlayerMusic> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -173,21 +175,45 @@ class _PlayerMusicState extends State<PlayerMusic> {
                             ],
                           ),
                         ),
-                        SliderTheme(
-                          data: SliderThemeData(
-                            overlayShape: SliderComponentShape.noOverlay,
-                          ),
-                          child: Slider(
-                            value: positionData.position.inSeconds.toDouble(),
-                            min: 0,
+                        NeumorphicTheme(
+                          theme: const NeumorphicThemeData(
+                              baseColor: Colors.black),
+                          child: NeumorphicSlider(
+                            thumb: Neumorphic(
+                              style: const NeumorphicStyle(
+                                depth: 10,
+                                intensity: 0,
+                                shape: NeumorphicShape.convex,
+                                color: Colors.black45,
+                              ),
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor: Colors.grey.shade900,
+                                child: const CircleAvatar(
+                                  maxRadius: 4,
+                                  backgroundColor: Color(0xFFA02017),
+                                ),
+                              ),
+                            ),
+                            sliderHeight: 5,
+                            height: 5,
                             max: positionData.duration.inSeconds.toDouble(),
-                            activeColor: const Color(0xFFA02017),
-                            inactiveColor: Colors.black,
+                            min: 0,
+                            value: positionData.position.inSeconds.toDouble(),
                             onChanged: (value) async {
                               final position = Duration(seconds: value.toInt());
                               await widget.audioRepository.audioPlayer
                                   .seek(position);
                             },
+                            style: const SliderStyle(
+                              border: NeumorphicBorder(
+                                width: 0.6,
+                                color: Colors.black38,
+                              ),
+                              depth: -20,
+                              accent: AppColor.backgroundColor,
+                              variant: Color(0xFFA02017),
+                            ),
                           ),
                         ),
                       ],
@@ -226,9 +252,7 @@ class _PlayerMusicState extends State<PlayerMusic> {
                       color: Colors.white,
                     ),
                     function: () {
-                      setState(() {
-                        audioController.previousAudio();
-                      });
+                      audioController.previousAudio();
                     },
                   ),
                   IconPlayOrPause(
