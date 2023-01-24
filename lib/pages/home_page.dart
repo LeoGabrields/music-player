@@ -1,81 +1,48 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 import 'package:player_music/constants/app_color.dart';
-import 'package:player_music/widgets/neumorphic_button_widget.dart';
-import 'package:player_music/pages/player_music_page.dart';
-import 'package:provider/provider.dart';
-import '../controller/audio_controller.dart';
+import 'package:player_music/pages/albuns_page.dart';
+import 'package:player_music/pages/artists_page.dart';
+import 'package:player_music/pages/list_music_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var currentIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
-    var audioRepository = Provider.of<AudioController>(context);
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        onTap: (value) {
+          setState(() {
+            currentIndex = value;
+          });
+        },
+        backgroundColor: const Color(0xFFA02017),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: AppColor.secondaryTextColor,
+        currentIndex: currentIndex,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.music_note_rounded), label: 'Músicas'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Artistas'),
+          BottomNavigationBarItem(icon: Icon(Icons.album), label: 'Álbuns'),
+        ],
+      ),
       backgroundColor: AppColor.backgroundColor,
-      body: SafeArea(
-        child: FutureBuilder<List<SongModel>>(
-          future: audioRepository.querySongs(),
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (snapshot.data!.isEmpty) {
-              return const Center(child: Text('Nada Encontrado!'));
-            }
-
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                var audio = snapshot.data![index];
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: audioRepository.audioPlayer.currentIndex == index
-                          ? Colors.black54
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            PlayerMusic(audioRepository: audioRepository),
-                      ));
-
-                      audioRepository.initPlayList(index);
-                    },
-                    leading: const CircleAvatar(
-                      radius: 27,
-                      backgroundColor: Color(0xFFA02017),
-                      child: Icon(Icons.music_note),
-                    ),
-                    title: Text(
-                      audio.displayNameWOExt,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: AppColor.primaryTextColor),
-                    ),
-                    subtitle: Text(
-                      audio.artist == '<unknown>'
-                          ? 'Artista Desconhecido'
-                          : audio.artist ?? '',
-                      style: const TextStyle(
-                          fontSize: 12, color: AppColor.secondaryTextColor),
-                    ),
-                    trailing: Text(audio.duration.toString(),
-                        style: const TextStyle(
-                            fontSize: 12, color: AppColor.secondaryTextColor)),
-                  ),
-                );
-              },
-            );
-          },
-        ),
+      body: IndexedStack(
+        index: currentIndex,
+        children: const [
+          ListMusicPage(),
+          ArtistsPage(),
+          AlbunsPage(),
+        ],
       ),
     );
   }
