@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:player_music/pages/now_playing/player_music_page.dart';
 import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/controller/audio_controller.dart';
-import 'package:player_music/pages/player_music_page.dart';
 import 'package:provider/provider.dart';
+
 
 class ListMusicPage extends StatelessWidget {
   const ListMusicPage({super.key});
@@ -13,7 +14,7 @@ class ListMusicPage extends StatelessWidget {
     var audioRepository = Provider.of<AudioController>(context);
     return SafeArea(
       child: FutureBuilder<List<SongModel>>(
-        future: audioRepository.querySongs(),
+        future: audioRepository.getSongs(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return const Center(child: CircularProgressIndicator());
@@ -39,7 +40,7 @@ class ListMusicPage extends StatelessWidget {
                 child: ListTile(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
+                      builder: (context) => 
                           PlayerMusic(playList: snapshot.data!),
                     ));
 

@@ -1,8 +1,8 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:player_music/utils/app_color.dart';
-import 'package:player_music/pages/albuns_page.dart';
-import 'package:player_music/pages/artists_page.dart';
-import 'package:player_music/pages/list_music_page.dart';
+import 'package:player_music/pages/albums/albuns_page.dart';
+import 'package:player_music/pages/artists/artists_page.dart';
+import 'package:player_music/pages/all_songs/list_music_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:player_music/pages/albums/album_musics_page.dart';
 import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/controller/audio_controller.dart';
-import 'package:player_music/pages/album_musics_page.dart';
 import 'package:provider/provider.dart';
 
-class ArtistsPage extends StatelessWidget {
-  const ArtistsPage({super.key});
+class AlbunsPage extends StatelessWidget {
+  const AlbunsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     var audioRepository = Provider.of<AudioController>(context);
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
-      body: FutureBuilder<List<ArtistModel>>(
-        future: audioRepository.queryArtist(),
+      body: FutureBuilder<List<AlbumModel>>(
+        future: audioRepository.getAlbuns(),
         builder: (context, snapshot) {
           if (snapshot.data != null) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                var artistModel = snapshot.data![index];
+                var albumModel = snapshot.data![index];
                 return Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   margin: const EdgeInsets.all(5),
@@ -29,30 +29,39 @@ class ArtistsPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => AlbumMusicsPage(
                           playList: audioRepository.filterMusic(
-                            artistModel.artist,
-                            'Artist',
+                            albumModel.album,
+                            'Album',
                           ),
-                          type: TypePlaylist.artistMusic,
+                          type: TypePlaylist.albumMusic,
                         ),
                       ),
                     ),
                     leading: QueryArtworkWidget(
-                      id: artistModel.id,
-                      type: ArtworkType.ARTIST,
+                      id: albumModel.id,
+                      type: ArtworkType.ALBUM,
                     ),
                     title: Text(
-                      artistModel.artist == '<unknown>'
-                          ? 'Artista Desconhecido'
-                          : artistModel.artist,
+                      albumModel.album,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: AppColor.primaryTextColor),
                     ),
-                    subtitle: const Text(
-                      'Artista',
-                      style: TextStyle(color: AppColor.secondaryTextColor),
+                    subtitle: RichText(
+                      text: TextSpan(
+                        text: '${albumModel.numOfSongs} ',
+                        style:
+                            const TextStyle(color: AppColor.secondaryTextColor),
+                        children: [
+                          TextSpan(
+                            text: albumModel.numOfSongs <= 1
+                                ? 'Música'
+                                : 'Músicas',
+                            style: const TextStyle(
+                                color: AppColor.secondaryTextColor),
+                          ),
+                        ],
+                      ),
                     ),
-                    trailing: Text('${artistModel.numberOfTracks}'),
                   ),
                 );
               },

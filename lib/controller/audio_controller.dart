@@ -4,11 +4,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:player_music/models/position_data_stream.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum TypePlaylist {
-  allMusic,
-  artistMusic,
-  albumMusic,
-}
+enum TypePlaylist { allMusic, artistMusic, albumMusic }
 
 class AudioController extends ChangeNotifier {
   final OnAudioQuery audioQuery = OnAudioQuery();
@@ -17,13 +13,14 @@ class AudioController extends ChangeNotifier {
   TypePlaylist? typePlaylist;
   int? currentIndex;
 
-  Stream<PositionData> get positionDataStream =>
-      Rx.combineLatest2<Duration, Duration?, PositionData>(
-        audioPlayer.positionStream,
-        audioPlayer.durationStream,
-        (position, duration) => PositionData(
-            position: position, duration: duration ?? Duration.zero),
-      );
+  Stream<PositionData> get positionDataStream {
+    return Rx.combineLatest2<Duration, Duration?, PositionData>(
+      audioPlayer.positionStream,
+      audioPlayer.durationStream,
+      (position, duration) =>
+          PositionData(position: position, duration: duration ?? Duration.zero),
+    );
+  }
 
   List<SongModel> filterMusic(String name, String type) {
     if (type == 'Album') {
@@ -39,7 +36,7 @@ class AudioController extends ChangeNotifier {
     }
   }
 
-  Future<List<SongModel>> querySongs() async {
+  Future<List<SongModel>> getSongs() async {
     try {
       _listSong = await audioQuery.querySongs(
         orderType: OrderType.ASC_OR_SMALLER,
@@ -53,7 +50,7 @@ class AudioController extends ChangeNotifier {
     return _listSong;
   }
 
-  Future<List<AlbumModel>> queryAlbuns() async {
+  Future<List<AlbumModel>> getAlbuns() async {
     List<AlbumModel> listAlbuns = [];
     try {
       listAlbuns = await audioQuery.queryAlbums(
@@ -68,7 +65,7 @@ class AudioController extends ChangeNotifier {
     return listAlbuns;
   }
 
-  Future<List<ArtistModel>> queryArtist() async {
+  Future<List<ArtistModel>> getArtist() async {
     List<ArtistModel> listArtist = [];
     try {
       listArtist = await audioQuery.queryArtists(

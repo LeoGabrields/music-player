@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:player_music/widgets/neumorphic_button_widget.dart';
 
-class IconPlayOrPause extends StatelessWidget {
+class IconButtonPlayOrPause extends StatelessWidget {
   final void Function() play;
   final void Function() pause;
   final Function seek;
   final Stream<PlayerState> stream;
-  const IconPlayOrPause({
+  const IconButtonPlayOrPause({
     Key? key,
     required this.play,
     required this.pause,

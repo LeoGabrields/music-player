@@ -3,7 +3,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/models/position_data_stream.dart';
 import 'package:player_music/widgets/neumorphic_button_widget.dart';
-import 'package:player_music/pages/components/icon_play_or_pause.dart';
+import 'package:player_music/widgets/icon_button_play_or_pause.dart';
 import 'package:player_music/controller/audio_controller.dart';
 import 'package:player_music/utils/convert_duration_to_string.dart';
 import 'package:provider/provider.dart';
@@ -126,11 +126,9 @@ class PlayerMusic extends StatelessWidget {
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              playList[index].artist ==
-                                      '<unknown>'
+                              playList[index].artist == '<unknown>'
                                   ? 'Artista Desconhecido'
-                                  : playList[index].artist ??
-                                      '',
+                                  : playList[index].artist ?? '',
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -146,6 +144,7 @@ class PlayerMusic extends StatelessWidget {
                   },
                 ),
                 Expanded(
+                  flex: 2,
                   child: StreamBuilder<PositionData>(
                     stream: audioController.positionDataStream,
                     builder: (context, snapshot) {
@@ -169,7 +168,7 @@ class PlayerMusic extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                     Convert.durationToString(
+                                    Convert.durationToString(
                                         positionData.duration),
                                     style: const TextStyle(
                                       color: AppColor.secondaryTextColor,
@@ -243,7 +242,7 @@ class PlayerMusic extends StatelessWidget {
                             audioController.previousAudio();
                           },
                         ),
-                        IconPlayOrPause(
+                        IconButtonPlayOrPause(
                           pause: audioController.audioPlayer.pause,
                           seek: audioController.audioPlayer.seek,
                           play: audioController.audioPlayer.play,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/controller/audio_controller.dart';
-import 'package:player_music/pages/player_music_page.dart';
+import 'package:player_music/pages/now_playing/player_music_page.dart';
 import 'package:provider/provider.dart';
 
 class AlbumMusicsPage extends StatelessWidget {

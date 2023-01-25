@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:player_music/utils/request_permission.dart';
 import 'package:player_music/controller/audio_controller.dart';
-import 'package:player_music/pages/home_page.dart';
+import 'package:player_music/pages/home/home_page.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           useMaterial3: true,
-          textTheme: TextTheme(          
+          textTheme: TextTheme(
             bodyText1: GoogleFonts.urbanist(
               color: Colors.white,
             ),
