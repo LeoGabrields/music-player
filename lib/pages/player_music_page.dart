@@ -1,11 +1,11 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:player_music/constants/app_color.dart';
+import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/models/position_data_stream.dart';
 import 'package:player_music/widgets/neumorphic_button_widget.dart';
 import 'package:player_music/pages/components/icon_play_or_pause.dart';
 import 'package:player_music/controller/audio_controller.dart';
-import 'package:player_music/utils/utils.dart';
+import 'package:player_music/utils/convert_duration_to_string.dart';
 import 'package:provider/provider.dart';
 
 class PlayerMusic extends StatelessWidget {
@@ -161,7 +161,7 @@ class PlayerMusic extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    Utils.converterDurationToString(
+                                    Convert.durationToString(
                                         positionData!.position),
                                     style: const TextStyle(
                                       color: AppColor.secondaryTextColor,
@@ -169,7 +169,7 @@ class PlayerMusic extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    Utils.converterDurationToString(
+                                     Convert.durationToString(
                                         positionData.duration),
                                     style: const TextStyle(
                                       color: AppColor.secondaryTextColor,

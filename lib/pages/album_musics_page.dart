@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:player_music/constants/app_color.dart';
+import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/controller/audio_controller.dart';
 import 'package:player_music/pages/player_music_page.dart';
 import 'package:provider/provider.dart';
 
 class AlbumMusicsPage extends StatelessWidget {
-  final List<SongModel> list;
+  final List<SongModel> playList;
   final TypePlaylist type;
-  const AlbumMusicsPage({super.key, required this.list, required this.type});
+  const AlbumMusicsPage({super.key, required this.playList, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,9 @@ class AlbumMusicsPage extends StatelessWidget {
         backgroundColor: AppColor.backgroundColor,
       ),
       body: ListView.builder(
-        itemCount: list.length,
+        itemCount: playList.length,
         itemBuilder: (context, index) {
-          var audio = list[index];
+          var audio = playList[index];
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
@@ -45,19 +45,19 @@ class AlbumMusicsPage extends StatelessWidget {
             child: ListTile(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlayerMusic(playList: list),
+                  builder: (context) => PlayerMusic(playList: playList),
                 ));
-                audioController.initPlayList(index, list, type);
+                audioController.initPlayList(index, playList, type);
               },
               title: Text(
-                list[index].displayNameWOExt,
+                audio.displayNameWOExt,
                 style: const TextStyle(
                   fontSize: 14,
                   color: AppColor.primaryTextColor,
                 ),
               ),
               subtitle: Text(
-                list[index].artist == '<unknown>'
+                audio.artist == '<unknown>'
                     ? 'Artista Desconhecido'
                     : audio.artist ?? '',
                 style: const TextStyle(
@@ -66,7 +66,7 @@ class AlbumMusicsPage extends StatelessWidget {
                 ),
               ),
               trailing: Text(
-                list[index].fileExtension,
+                audio.fileExtension,
                 style: const TextStyle(
                   fontSize: 12,
                   color: AppColor.secondaryTextColor,

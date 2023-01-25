@@ -1,5 +1,5 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:player_music/constants/app_color.dart';
+import 'package:player_music/utils/app_color.dart';
 import 'package:player_music/pages/albuns_page.dart';
 import 'package:player_music/pages/artists_page.dart';
 import 'package:player_music/pages/list_music_page.dart';

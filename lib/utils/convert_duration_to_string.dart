@@ -1,5 +1,5 @@
-class Utils {
-  static String converterDurationToString(Duration duration) {
+class Convert {
+  static String durationToString(Duration duration) {
     int remainderMinutes = duration.inMinutes.remainder(60);
     int remainderSeconds = duration.inSeconds.remainder(60);
 
